@@ -19,33 +19,33 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
       elevation: 1,
       backgroundColor: Colors.white,
       context: ctx,
-      builder: (ctx) => Container(
-        padding: EdgeInsets.all(8),
-        height: 150,
-        color: Colors.white54,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      builder: (ctx) => SizedBox(
+        height: 60,
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Text("Новости и события",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ListTile(
+              title: const Text("По всем вопросам"),
+              onTap: () {
+                print("Copy");
+              },
+              trailing: Container(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("sport_art@dme.ru"),
+                    Icon(Icons.keyboard_arrow_right)
+                  ],
+                ),
+              ),
             ),
-            Text("Новости"),
-            Text("Cобытия"),
-            Divider(
-              color: Color.fromARGB(255, 193, 192, 192),
-              thickness: 1,
-              height: 2,
-            ),
-            Text("Отмена"),
           ],
         ),
       ),
     );
   }
 
+  // Text("По всем вопросам"), // "sport_art@dme.ru",
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -7,32 +7,44 @@ import 'list_events_widget.dart';
 
 void _show(BuildContext ctx) {
   showModalBottomSheet(
-    elevation: 1,
     backgroundColor: Colors.white,
     context: ctx,
     builder: (ctx) => Container(
-      padding: EdgeInsets.all(8),
-      width: 300,
-      height: 150,
-      color: Colors.white54,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      height: 185,
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 5),
-            child: Text("Новости и события",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Text("Новости"),
-          Text("Cобытия"),
+          ListTile(
+              visualDensity: VisualDensity(vertical: -3),
+              title: const Text("Новости и события",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              onTap: () {
+                print("Новости и события");
+              }),
+          ListTile(
+              visualDensity: VisualDensity(vertical: -3),
+              title: const Text("Новости"),
+              onTap: () {
+                print("Новости");
+              }),
+          ListTile(
+              visualDensity: VisualDensity(vertical: -3),
+              title: const Text("Cобытия"),
+              onTap: () {
+                print("Cобытия");
+              }),
           Divider(
             color: Color.fromARGB(255, 193, 192, 192),
             thickness: 1,
             height: 2,
             indent: 0,
           ),
-          Text("Отмена"),
+          ListTile(
+              visualDensity: VisualDensity(vertical: -3),
+              title: const Text("Отмена"),
+              onTap: () {
+                print("Отмена");
+              }),
         ],
       ),
     ),
