@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../domain/models/event_model.dart';
-import '../../../domain/services/list_events_service.dart';
+import '../list_events/list_events_view_model.dart';
 
 class DetailEventViewModel extends ChangeNotifier {
-  // я делаю копию _listEventsService, из-за чего он создаетя заново со старыми значениями
-  final _listEventsService = ListEventsService();
-
-  late Event _selectedEvent;
-  Event get selectedEvent => _selectedEvent;
-  bool _switchValue = false;
+  final _listEventsService = ListEventsViewModel().listEventsService;
 
   Event findById(id) {
-    for (var i = 0; i < _listEventsService.listEvents.length; i++) {
-      print('id${_listEventsService.listEvents[i].id}');
-    }
-    return _listEventsService.listEvents.firstWhere((event) => event.id == id);
+    return _listEventsService.firstWhere((event) => event.id == id);
   }
 
-  void loadValue() {
-    _listEventsService.initilalize();
+  void switcher(value) {
+    print('switcher $value');
   }
 
-  DetailEventViewModel() {
-    loadValue();
-  }
-
-  bool switcher() {
-    _switchValue = !_switchValue;
-    notifyListeners();
-    return _switchValue;
+  void show(BuildContext ctx, Event selectedEvent) {
+    showModalBottomSheet(
+      elevation: 1,
+      backgroundColor: Colors.white,
+      context: ctx,
+      builder: (ctx) => SizedBox(
+        height: 60,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            ListTile(
+              title: const Text("По всем вопросам"),
+              onTap: () {
+                print("Copy");
+              },
+              trailing: Container(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(selectedEvent.email[0].toString()),
+                    Icon(Icons.keyboard_arrow_right)
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

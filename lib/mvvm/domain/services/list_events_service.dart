@@ -4,25 +4,37 @@ import '../data_providers/list_events_data_provider.dart';
 
 class ListEventsService {
   final _listEventsDataProvider = ListEventsDataProvider();
+
   var _listEvents = [
     Event(
-      changeDT: 1,
-      dateEnd: '1',
-      dateStart: '9:00',
-      email: [],
-      id: 1,
-      name: 'First1',
+      id: 185,
+      position: 0,
+      name: 'Brain1 Club',
+      type: 10,
+      changeDT: 1673948546,
+      announce: null,
+      views: 94,
+      dateStart: '',
+      dateEnd: '',
+      timeStart: '',
+      timeEnd: '',
+      youtube: null,
+      address: null,
+      location: null,
+      longitude: '',
+      latitude: '',
+      instagram: null,
+      email: [
+        {"name": "Команда ГЦКА", "data": "sport_art@dme.ru"}
+      ],
+      url: [],
       phone: [],
-      url: ['assets/imgs/default_img_card.png'],
+      picture: 'https://events-backend.dme.ru//storage/image/?id=488',
     )
   ];
-  List<Event> get listEvents => _listEvents;
+  List<Event> get listEvents => _listEventsDataProvider.listEventsGet;
 
-  void initilalize() {
-    _listEvents = _listEventsDataProvider.fetchListEvents();
-  }
-
-  ListEventsService() {
-    initilalize();
+  Future<void> initilalize() async {
+    _listEvents = await _listEventsDataProvider.fetchListEvents();
   }
 }

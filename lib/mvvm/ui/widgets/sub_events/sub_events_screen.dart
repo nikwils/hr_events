@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 import '../detail_event/detail_event_screen.dart';
+import 'sub_events_view_model.dart';
 
 class SubEventsScreen extends StatelessWidget {
   const SubEventsScreen({super.key});
@@ -12,7 +12,7 @@ class SubEventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Подписки на события')),
-      body: const _ListSubEvents(),
+      body: _ListSubEvents(),
     );
   }
 }
@@ -22,10 +22,12 @@ class _ListSubEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var subEvents = context.read<SubEventsViewModel>().subEvents;
+
     return ListView.builder(
       padding: const EdgeInsets.only(top: 20),
-      itemCount: 3,
-      itemBuilder: (BuildContext context, int index) {
+      itemCount: subEvents.length,
+      itemBuilder: (BuildContext context, int i) {
         return GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(DetailEventScreen.routeName);
@@ -43,12 +45,12 @@ class _ListSubEvents extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Турник в DME по шахматам',
+                      subEvents[i].name,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    '19 ноября',
+                    subEvents[i].dateEnd,
                   ),
                 ],
               ),

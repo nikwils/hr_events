@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../detail_event/detail_event_screen.dart';
 import 'list_events_view_model.dart';
@@ -14,18 +13,27 @@ class ListEvents extends StatefulWidget {
 class _ListEventsState extends State<ListEvents> {
   final _viewModel = ListEventsViewModel();
 
-  // @override
-  // void initState() {
-  //   // Start listening to changes.
-  //   _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    // Start listening to changes.
+    _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
+    super.initState();
+    countEvent();
+  }
 
-  // @override
-  // void dispose() {
-  //   _viewModel.controllerSearch.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _viewModel.controllerSearch.dispose();
+    super.dispose();
+  }
+
+  void countEvent() {
+    print(_viewModel.listEventsService.length);
+  }
+
+  void printOnTap() {
+    print(('ontap${_viewModel.listEventsService.length}'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,62 +80,102 @@ class _ListEventsState extends State<ListEvents> {
             ),
           ),
         ),
-        Expanded(child: FutureBuilder(
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return ListView.builder(
-              padding: EdgeInsets.only(top: 20),
-              itemCount: _viewModel.listEventsService.length,
-              itemBuilder: (BuildContext context, int i) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(DetailEventScreen.routeName,
-                        arguments: _viewModel.listEventsService[i].id);
-                    print('detail ${_viewModel.listEventsService[i].id}');
-                  },
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Image.asset(
-                            _viewModel.listEventsService[i].url![0],
-                            height: 100,
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                        Divider(),
-                        Container(
-                          padding: const EdgeInsets.all(
-                            10,
-                          ),
-                          height: 126,
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(_viewModel.listEventsService[i].name,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              Text(DateFormat.yMMMEd().format(DateTime.now())),
-                              SizedBox(
-                                height: 5,
+        Expanded(
+            child: FutureBuilder(
+                future: _viewModel.future,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if (snapshot.error != null) {
+                      return const Center(
+                        child: Text('Error'),
+                      );
+                    } else {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 20),
+                        itemCount: _viewModel.listEventsService.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return GestureDetector(
+                            onTap: () {
+                              printOnTap();
+                              Navigator.of(context).pushNamed(
+                                  DetailEventScreen.routeName,
+                                  arguments:
+                                      _viewModel.listEventsService[i].id);
+                            },
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: _viewModel
+                                                .listEventsService[i].picture !=
+                                            ""
+                                        ? Image.network(
+                                            (_viewModel.listEventsService[i]
+                                                    .picture)
+                                                .toString(),
+                                            height: 100,
+                                            alignment: Alignment.center,
+                                          )
+                                        : Image.asset(
+                                            'assets/imgs/default_img_card.png',
+                                            height: 100,
+                                            alignment: Alignment.center,
+                                          ),
+                                  ),
+                                  Divider(),
+                                  Container(
+                                    padding: const EdgeInsets.all(
+                                      10,
+                                    ),
+                                    height: 160,
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            _viewModel
+                                                .listEventsService[i].name,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(_viewModel.listEventsService[i]
+                                                    .dateStart !=
+                                                ''
+                                            ? _viewModel
+                                                .listEventsService[i].dateStart
+                                            : 'Скоро объявим'),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          _viewModel.listEventsService[i]
+                                                  .announce ??
+                                              'Классное мероприятие',
+                                          maxLines: 4,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(_viewModel.listEventsService[i].dateEnd),
-                              SizedBox(
-                                height: 5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        )),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }
+                })),
       ],
     );
   }
