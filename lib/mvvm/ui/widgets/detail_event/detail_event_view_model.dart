@@ -4,12 +4,6 @@ import '../../../domain/models/event_model.dart';
 import '../list_events/list_events_view_model.dart';
 
 class DetailEventViewModel extends ChangeNotifier {
-  final _listEventsService = ListEventsViewModel().listEventsService;
-
-  Event findById(id) {
-    return _listEventsService.firstWhere((event) => event.id == id);
-  }
-
   void switcher(value) {
     print('switcher $value');
   }

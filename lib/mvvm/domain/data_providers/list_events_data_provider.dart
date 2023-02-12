@@ -7,14 +7,14 @@ import 'package:http/http.dart' as http;
 
 class ListEventsDataProvider {
   List<Event> _listEvents = [];
-  List<Event> get listEventsGet => _listEvents;
+  List<Event> get listEventsGet => [..._listEvents];
 
   Future<List<Event>> fetchListEvents() async {
     late List<Event> listEvents = [];
 
     try {
       var url = Uri.parse('https://events-backend.dme.ru/api/AppStructure');
-      final response = await http.post(
+      var response = await http.post(
         url,
         headers: <String, String>{
           'Authentication': 'DlhDsw769HHFYU6t6hgsds78hJH98kjlsd87uhjh',

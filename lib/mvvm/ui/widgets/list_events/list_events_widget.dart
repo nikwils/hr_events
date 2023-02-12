@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../detail_event/detail_event_screen.dart';
 import 'list_events_view_model.dart';
@@ -11,37 +12,37 @@ class ListEvents extends StatefulWidget {
 }
 
 class _ListEventsState extends State<ListEvents> {
-  final _viewModel = ListEventsViewModel();
+  // @override
+  // void initState() {
+  //   // Start listening to changes.
+  //   _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
+  //   super.initState();
+  //   countEvent();
+  // }
 
-  @override
-  void initState() {
-    // Start listening to changes.
-    _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
-    super.initState();
-    countEvent();
-  }
+  // @override
+  // void dispose() {
+  //   _viewModel.controllerSearch.dispose();
+  //   super.dispose();
+  // }
 
-  @override
-  void dispose() {
-    _viewModel.controllerSearch.dispose();
-    super.dispose();
-  }
-
-  void countEvent() {
-    print(_viewModel.listEventsService.length);
-  }
+  // void countEvent() {
+  //   print(_viewModel.listEvents.length);
+  // }
 
   void printOnTap() {
-    print(('ontap${_viewModel.listEventsService.length}'));
+    // print(('ontap${_viewModel.listEvents.length}'));
   }
 
   @override
   Widget build(BuildContext context) {
+    final _viewModel = context.watch<ListEventsViewModel>();
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(
                 color: Colors.grey,
@@ -96,39 +97,37 @@ class _ListEventsState extends State<ListEvents> {
                       );
                     } else {
                       return ListView.builder(
-                        padding: EdgeInsets.only(top: 20),
-                        itemCount: _viewModel.listEventsService.length,
+                        padding: const EdgeInsets.only(top: 20),
+                        itemCount: _viewModel.listEvents.length,
                         itemBuilder: (BuildContext context, int i) {
                           return GestureDetector(
-                            onTap: () {
-                              printOnTap();
+                            onTap: () async {
+                              _viewModel
+                                  .setSelectedEvent(_viewModel.listEvents[i]);
                               Navigator.of(context).pushNamed(
-                                  DetailEventScreen.routeName,
-                                  arguments:
-                                      _viewModel.listEventsService[i].id);
+                                DetailEventScreen.routeName,
+                              );
                             },
                             child: Card(
                               child: Column(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16),
-                                    child: _viewModel
-                                                .listEventsService[i].picture !=
+                                    child: _viewModel.listEvents[i].picture !=
                                             ""
                                         ? Image.network(
-                                            (_viewModel.listEventsService[i]
-                                                    .picture)
+                                            (_viewModel.listEvents[i].picture)
                                                 .toString(),
                                             height: 100,
                                             alignment: Alignment.center,
                                           )
                                         : Image.asset(
                                             'assets/imgs/default_img_card.png',
-                                            height: 100,
+                                            height: 150,
                                             alignment: Alignment.center,
                                           ),
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Container(
                                     padding: const EdgeInsets.all(
                                       10,
@@ -141,27 +140,23 @@ class _ListEventsState extends State<ListEvents> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                            _viewModel
-                                                .listEventsService[i].name,
-                                            style: TextStyle(
+                                        Text(_viewModel.listEvents[i].name,
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
-                                        Text(_viewModel.listEventsService[i]
-                                                    .dateStart !=
+                                        Text(_viewModel
+                                                    .listEvents[i].dateStart !=
                                                 ''
-                                            ? _viewModel
-                                                .listEventsService[i].dateStart
+                                            ? _viewModel.listEvents[i].dateStart
                                             : 'Скоро объявим'),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Text(
-                                          _viewModel.listEventsService[i]
-                                                  .announce ??
+                                          _viewModel.listEvents[i].announce ??
                                               'Классное мероприятие',
                                           maxLines: 4,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                       ],

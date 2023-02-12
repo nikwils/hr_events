@@ -17,7 +17,9 @@ class DetailEvent extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Image.network(selectedEvent.picture.toString()),
+              child: selectedEvent.picture.toString() != ''
+                  ? Image.network(selectedEvent.picture.toString())
+                  : Image.asset('assets/imgs/default_img_card.png'),
             ),
             const Divider(
               thickness: 1,
@@ -160,10 +162,9 @@ class _DescColumn extends StatelessWidget {
         Text(_selectedEvent.name, style: TextStyle(fontSize: 22)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Image.network(
-            _selectedEvent.picture.toString(),
-            alignment: Alignment.center,
-          ),
+          child: _selectedEvent.picture.toString() != ''
+              ? Image.network(_selectedEvent.picture.toString())
+              : Image.asset('assets/imgs/default_img_card.png'),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 8),

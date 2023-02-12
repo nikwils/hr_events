@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../domain/data_providers/list_events_data_provider.dart';
 import '../../../domain/models/event_model.dart';
 import '../../../domain/services/list_events_service.dart';
 
@@ -8,13 +9,18 @@ class ListEventsViewModel extends ChangeNotifier {
   DateTime _today = DateTime.now();
   Future? future;
 
+  late Event _selectedEvent;
+
   final _listEventsService = ListEventsService();
+  List<Event> get listEvents => _listEventsService.listEvents;
+  Event get selectedEvent => _selectedEvent;
 
-  List<Event> get listEventsService => updateListEvents();
+  setSelectedEvent(Event event) {
+    _selectedEvent = event;
+  }
 
-  Future<void> loadValue() async {
-    await _listEventsService.initilalize();
-    notifyListeners();
+  ListEventsViewModel() {
+    future = _listEventsService.initilalize();
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -33,8 +39,7 @@ class ListEventsViewModel extends ChangeNotifier {
   final TextEditingController controllerSearch = TextEditingController();
 
   void printLatestValue() {
-    print('text: ${controllerSearch.text}');
-    print('я тут');
+    print('printLatestValue: ${controllerSearch.text}');
   }
 
   void clearTextField() {
@@ -42,15 +47,5 @@ class ListEventsViewModel extends ChangeNotifier {
     controllerSearch.clear();
     // Call setState to update the UI
     notifyListeners();
-  }
-
-  ListEventsViewModel() {
-    future = loadValue();
-    updateListEvents();
-    print(('ListEventsViewModel ${listEventsService.length}'));
-  }
-
-  List<Event> updateListEvents() {
-    return _listEventsService.listEvents;
   }
 }

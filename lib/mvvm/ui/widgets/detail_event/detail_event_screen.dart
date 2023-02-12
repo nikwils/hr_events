@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../list_events/list_events_view_model.dart';
 import 'detail_event_view_model.dart';
 import 'detail_event_widget.dart';
 
@@ -9,14 +10,10 @@ class DetailEventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventId = ModalRoute.of(context)?.settings.arguments;
-
-    final vm = context.watch<DetailEventViewModel>();
-    print('ошибка после');
-    final selectedEvent = vm.findById(eventId);
+    final _selectedEvent = context.watch<ListEventsViewModel>().selectedEvent;
 
     return Scaffold(
-        appBar: AppBar(title: Text(selectedEvent.name)),
-        body: SafeArea(child: DetailEvent(selectedEvent)));
+        appBar: AppBar(title: Text(_selectedEvent.name)),
+        body: SafeArea(child: DetailEvent(_selectedEvent)));
   }
 }
