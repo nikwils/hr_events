@@ -3,7 +3,6 @@ import 'package:hr/mvvm/ui/widgets/list_events/list_events_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../detail_event/detail_event_screen.dart';
-import 'sub_events_view_model.dart';
 
 class SubEventsScreen extends StatelessWidget {
   const SubEventsScreen({super.key});

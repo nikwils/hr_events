@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/event_model.dart';
-import '../list_events/list_events_view_model.dart';
 
 class DetailEventViewModel extends ChangeNotifier {
   void switcher(value) {
@@ -27,7 +26,7 @@ class DetailEventViewModel extends ChangeNotifier {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(selectedEvent.email.length != 0
+                    Text(selectedEvent.email.isNotEmpty
                         ? selectedEvent.email[0].toString()
                         : 'почты нет'),
                     Icon(Icons.keyboard_arrow_right)

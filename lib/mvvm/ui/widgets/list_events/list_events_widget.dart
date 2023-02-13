@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../detail_event/detail_event_screen.dart';
 import 'list_events_view_model.dart';
@@ -11,24 +10,26 @@ class ListEvents extends StatefulWidget {
   State<ListEvents> createState() => _ListEventsState();
 }
 
+final _viewModel = ListEventsViewModel();
+
 class _ListEventsState extends State<ListEvents> {
-  // @override
-  // void initState() {
-  //   // Start listening to changes.
-  //   _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
-  //   super.initState();
-  //   countEvent();
-  // }
+  @override
+  void initState() {
+    // Start listening to changes.
+    _viewModel.controllerSearch.addListener(_viewModel.printLatestValue);
+    super.initState();
+    countEvent();
+  }
 
-  // @override
-  // void dispose() {
-  //   _viewModel.controllerSearch.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _viewModel.controllerSearch.dispose();
+    super.dispose();
+  }
 
-  // void countEvent() {
-  //   print(_viewModel.listEvents.length);
-  // }
+  void countEvent() {
+    print(_viewModel.listEvents.length);
+  }
 
   void printOnTap() {
     // print(('ontap${_viewModel.listEvents.length}'));
@@ -36,8 +37,6 @@ class _ListEventsState extends State<ListEvents> {
 
   @override
   Widget build(BuildContext context) {
-    final _viewModel = context.watch<ListEventsViewModel>();
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
