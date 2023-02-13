@@ -27,7 +27,9 @@ class DetailEventViewModel extends ChangeNotifier {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(selectedEvent.email[0].toString()),
+                    Text(selectedEvent.email.length != 0
+                        ? selectedEvent.email[0].toString()
+                        : 'почты нет'),
                     Icon(Icons.keyboard_arrow_right)
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr/mvvm/ui/widgets/list_events/list_events_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../detail_event/detail_event_screen.dart';
@@ -22,14 +23,16 @@ class _ListSubEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var subEvents = context.read<SubEventsViewModel>().subEvents;
+    var listEventsViewModel = context.read<ListEventsViewModel>();
+    var subEvents = listEventsViewModel.subListEvents;
 
     return ListView.builder(
       padding: const EdgeInsets.only(top: 20),
       itemCount: subEvents.length,
       itemBuilder: (BuildContext context, int i) {
         return GestureDetector(
-          onTap: () {
+          onTap: () async {
+            listEventsViewModel.setSelectedEvent(subEvents[i]);
             Navigator.of(context).pushNamed(DetailEventScreen.routeName);
           },
           child: Card(
@@ -37,7 +40,7 @@ class _ListSubEvents extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              height: 75,
+              height: 80,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

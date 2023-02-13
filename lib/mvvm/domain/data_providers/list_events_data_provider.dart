@@ -28,6 +28,7 @@ class ListEventsDataProvider {
         extractedData = extractedData['Res']['Lenta'];
 
         extractedData.forEach((event) {
+          print(event['Type'] != null ? event['Type'] as int : null);
           listEvents.add(Event(
             address:
                 event['Address'] != null ? event['Address'] as String : null,

@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../domain/data_providers/list_events_data_provider.dart';
 import '../../../domain/models/event_model.dart';
 import '../../../domain/services/list_events_service.dart';
 
 class ListEventsViewModel extends ChangeNotifier {
   DateTime _today = DateTime.now();
   Future? future;
-
   late Event _selectedEvent;
+  late List<Event> _subListEvents;
 
   final _listEventsService = ListEventsService();
   List<Event> get listEvents => _listEventsService.listEvents;
+  List<Event> get subListEvents => _subListEvents;
   Event get selectedEvent => _selectedEvent;
 
   setSelectedEvent(Event event) {
     _selectedEvent = event;
+  }
+
+  setSubListEvents() {
+    _subListEvents = listEvents.where((e) => e.type == 10).toList();
   }
 
   ListEventsViewModel() {

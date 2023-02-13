@@ -119,6 +119,8 @@ class _ListEventsState extends State<ListEvents> {
                                             (_viewModel.listEvents[i].picture)
                                                 .toString(),
                                             height: 100,
+                                            width: 500.0,
+                                            fit: BoxFit.cover,
                                             alignment: Alignment.center,
                                           )
                                         : Image.asset(
